@@ -294,14 +294,17 @@ bool publishEnvironment() {
 
 void handleMqttCommand(const char* command) {
   if (strcasecmp(command, "arm") == 0) {
+    if (armed) return;
     armed = true;
     alertActive = false;
     Serial.println("Command: device armed");
   } else if (strcasecmp(command, "disarm") == 0) {
+    if (!armed) return;
     armed = false;
     alertActive = false;
     Serial.println("Command: device disarmed");
   } else if (strcasecmp(command, "dismiss") == 0) {
+    if (!alertActive) return;
     alertActive = false;
     Serial.println("Command: alert dismissed");
   } else {
